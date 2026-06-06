@@ -21,7 +21,7 @@ fixes.
 Use one of the following private channels instead:
 
 1. **GitHub Private Vulnerability Reporting (preferred):**
-   <https://github.com/KSS-IT-Committee/2026-event-week-top/security/advisories/new>
+   <https://github.com/KSS-IT-Committee/2026-taiikusai-top/security/advisories/new>
 2. **Email:** koishikawa.itcommittee@gmail.com
    - If you can, encrypt sensitive details or share them through a private
      channel after we acknowledge your report.
