@@ -33,6 +33,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+RUN npm prune --omit=dev --no-audit --no-fund && \
+    chown -R nextjs:nodejs /app/node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/next.config* ./
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle.config.ts ./
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
@@ -44,4 +46,4 @@ RUN mkdir -p /app/files && chown nextjs:nodejs /app/files
 USER nextjs
 EXPOSE 3000
 
-CMD ["npm", "run", "start", "--", "-p", "3000", "-H", "0.0.0.0"]
+CMD ["node_modules/.bin/next", "start"]
