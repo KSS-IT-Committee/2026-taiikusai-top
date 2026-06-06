@@ -90,7 +90,7 @@ We will not pursue or support any legal action against researchers who:
 以下のいずれかの非公開チャネルを利用してください。
 
 1. **GitHub Private Vulnerability Reporting（推奨）：**
-   <https://github.com/KSS-IT-Committee/2026-event-week-top/security/advisories/new>
+   <https://github.com/KSS-IT-Committee/2026-taiikusai-top/security/advisories/new>
 2. **メール：** koishikawa.itcommittee@gmail.com
    - 機微な情報は、最初の受領連絡のあと別チャネルで共有していただくか、
      可能であれば暗号化してください。
