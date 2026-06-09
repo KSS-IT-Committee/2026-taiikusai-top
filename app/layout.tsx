@@ -23,6 +23,13 @@ export const metadata: Metadata = {
 // reused event-week-top's ID; replaced with its own property.)
 const GA_MEASUREMENT_ID = "G-FN2J13N4JB";
 
+const GA_INIT_SCRIPT = [
+  "window.dataLayer = window.dataLayer || [];",
+  "function gtag() { dataLayer.push(arguments); }",
+  "gtag('js', new Date());",
+  `gtag('config', '${GA_MEASUREMENT_ID}');`,
+].join("\n");
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +40,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
+      <body className="min-h-full flex flex-col">
         {/* Google tag (gtag.js) — loaded only when a measurement ID is set and
             this is not a PR preview deployment. IS_PR_PREVIEW is injected at
             runtime by the deploy infra and read here server-side, so it must
@@ -44,16 +51,15 @@ export default function RootLayout({
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
               strategy="afterInteractive"
             />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GA_MEASUREMENT_ID}');`}
-            </Script>
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{ __html: GA_INIT_SCRIPT }}
+            />
           </>
         )}
-      </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+        {children}
+      </body>
     </html>
   );
 }
