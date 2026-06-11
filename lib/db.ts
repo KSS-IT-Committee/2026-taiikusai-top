@@ -3,9 +3,7 @@ import "server-only";
 import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-// import * as schema from "@/db/schema";
-// temporary hardcoded
-const schema = {};
+import * as schema from "@/db/schema";
 
 declare global {
   // Reuse the pool across HMR reloads in dev to avoid leaking connections.
