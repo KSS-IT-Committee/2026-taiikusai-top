@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 
+import { AccountBar } from "@/components/AccountNav/AccountBar";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -53,7 +55,10 @@ gtag('config', '${GA_MEASUREMENT_ID}');`}
           </>
         )}
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AccountBar />
+        {children}
+      </body>
     </html>
   );
 }
