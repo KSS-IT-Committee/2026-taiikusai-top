@@ -1,0 +1,5 @@
+{
+  "title": "Bump js-yaml from 4.1.1 to 4.2.0 in the npm_and_yarn group across 1 directory",
+  "description": "パッケージのバージョンを上げました。これによるページの変更はありません。",
+  "credits": ["@dependabot[bot]"]
+}
