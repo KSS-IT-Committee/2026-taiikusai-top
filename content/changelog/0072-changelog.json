@@ -1,0 +1,5 @@
+{
+  "title": "Bump actions/setup-node from 4 to 6",
+  "description": "Actionのバージョンを上げました。これによるページの変更はありません。",
+  "credits": ["@dependabot[bot]"]
+}
