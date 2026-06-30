@@ -1,5 +1,5 @@
 {
-  "title": "Bump actions/setup-node from 4 to 6",
+  "title": "Bump actions/cache from 5.0.5 to 6.0.0",
   "description": "Actionのバージョンを上げました。これによるページの変更はありません。",
   "credits": ["@dependabot[bot]"]
 }
