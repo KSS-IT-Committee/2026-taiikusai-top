@@ -69,3 +69,15 @@
 .linePink {
   --line-color: #e0789b;
 }
+
+@media (max-width: 768px) {
+.header {
+    background-image: url('/header.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+.theme {
+    display: none;
+  }
+}
