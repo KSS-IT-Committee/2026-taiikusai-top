@@ -15,7 +15,7 @@ export default function Toppage() {
         <div className={styles.themeContainer}>
           <Image
             src="/sports-theme.svg"
-            alt="Theme Logo"
+            alt="今日、勝ちにきました"
             width={600}
             height={100}
             className={styles.theme}
