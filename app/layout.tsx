@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { AccountBar } from "@/components/AccountNav/AccountBar";
+import { Footer } from "@/components/Footer";
 import { NoScriptAlert } from "@/components/NoScriptAlert";
 
 const geistSans = Geist({
@@ -39,6 +40,7 @@ export default function RootLayout({
         <NoScriptAlert />
         <AccountBar />
         {children}
+        <Footer />
       </body>
       {/* Google tag (gtag.js) via @next/third-parties — the official Next.js
           integration. Skipped on PR preview deployments: IS_PR_PREVIEW is
