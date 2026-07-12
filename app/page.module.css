@@ -71,13 +71,13 @@
 }
 
 @media (max-width: 768px) {
-.header {
-    background-image: url('/header.gif');
+  .header {
+    background-image: url("/header.gif");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
-.theme {
+  .theme {
     display: none;
   }
 }
