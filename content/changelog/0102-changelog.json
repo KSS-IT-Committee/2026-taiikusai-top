@@ -1,5 +1,5 @@
 {
-  "title": "added local test",
-  "description": "TODO",
+  "title": "ローカルテストの追加",
+  "description": "環境変数でローカルテストができるようになりました。ページの変更はありません。",
   "credits": ["@Shirym-min"]
 }
