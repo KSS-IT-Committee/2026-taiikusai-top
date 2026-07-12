@@ -1,5 +1,5 @@
 {
-  "title": "Feature/create top design",
-  "description": "TODO",
+  "title": "基本的なデザインの追加",
+  "description": "ヘッダーとフッター、予備大の見出しを追加しました。また、不要なファイルを削除しました。",
   "credits": ["@kinoto0103"]
 }

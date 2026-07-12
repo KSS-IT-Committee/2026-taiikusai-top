@@ -28,16 +28,19 @@ export default function Toppage() {
       <div className={styles.container}>
         <div className={styles.yobitai}>
           <h1 className={`${styles.title} ${styles.titleLine} ${styles.lineBlue}`}>予備大結果</h1>
-          <div className={styles.Content}>
-            <div className={styles.Topics}>
+          <div className={styles.content}>
+            <div className={styles.topics}>
               <h2 className={`${styles.topicsTitle} ${styles.titleLine} ${styles.linePink}`}>後期</h2>
+              <p>ここに内容を追加</p>
             </div>
-            <div className={styles.Topics}>
+            <div className={styles.topics}>
               <h2 className={`${styles.topicsTitle} ${styles.titleLine} ${styles.linePink}`}>前期</h2>
+              <p>ここに内容を追加</p>
             </div>
           </div>
 
         </div>
-      </div>    </>
+      </div>    
+    </>
   );
 }

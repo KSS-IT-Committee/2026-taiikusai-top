@@ -39,7 +39,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <NoScriptAlert />
         <AccountBar />
-        {children}
+        <main className="flex-grow">
+          {children}
+        </main>
         <Footer />
       </body>
       {/* Google tag (gtag.js) via @next/third-parties — the official Next.js
