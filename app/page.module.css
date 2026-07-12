@@ -1,0 +1,69 @@
+.header {
+  background: linear-gradient(135deg, #93e0ff 10% , #1174ff 100%);
+  width: 100%;
+  height: 160px;
+  padding: 16px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.themeContainer {
+  display: flex;
+  align-items: center;
+}
+.theme {
+  object-fit: contain;
+  filter: drop-shadow(0px 0px 2px rgba(255, 255, 255, 0.8))
+          drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.8));
+}
+.headerText {
+  font-family: "Yu Mincho", serif;
+  color: white;
+  font-size: clamp(20px, 3.0vw, 32px);
+  position: absolute;
+  bottom: 0px;
+  right: 48px;
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 50px;
+}
+.title {
+  font-family: "Yu Mincho", serif;
+  font-size: clamp(24px, 3.0vw, 32px);
+  margin-bottom: 16px;
+  padding-left: 20px;
+  position: relative;
+}
+.topicsTitle {
+  font-family: "Yu Mincho", serif;
+  font-size: clamp(16px, 2.2vw, 20px);
+  margin-left: clamp(24px, 2.5vw, 40px);
+  margin-bottom: 16px;
+  padding-left: clamp(16px, 1.6vw, 24px);
+  position: relative;
+}
+.titleLine::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10%;
+  width: 4px;
+  height: 80%;
+  background-color: var(--line-color, #ccc);
+}
+.lineBlue {
+  --line-color: #41a0ff;
+}
+.linePink {
+  --line-color: #e0789b;
+}
+
+@media (max-width: 768px) {
+
+}
