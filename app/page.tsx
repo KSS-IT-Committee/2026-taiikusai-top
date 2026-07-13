@@ -35,7 +35,7 @@ export default function Toppage() {
             <h2
               className={`${styles.topicsTitle} ${styles.titleLine} ${styles.linePink}`}
             >
-              後期
+              前期
             </h2>
             <p>ここに内容を追加</p>
           </div>
@@ -43,7 +43,7 @@ export default function Toppage() {
             <h2
               className={`${styles.topicsTitle} ${styles.titleLine} ${styles.linePink}`}
             >
-              前期
+              後期
             </h2>
             <p>ここに内容を追加</p>
           </div>
