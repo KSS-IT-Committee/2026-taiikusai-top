@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     // flag; pairs with app/forbidden.tsx.
     authInterrupts: true,
   },
-  
+
   images: {
     remotePatterns: [
       {
@@ -24,6 +24,5 @@ const nextConfig: NextConfig = {
     ],
   },
 };
-
 
 export default nextConfig;
