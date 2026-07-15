@@ -13,7 +13,7 @@ const MAINTAINERS = [
   "rotarymars",
   "K10-K10",
   "SakaYq4875",
-  "Shrym-min"
+  "Shrym-min",
 ];
 
 function MaintainerItem({ username }: { username: string }) {
