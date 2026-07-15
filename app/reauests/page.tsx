@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { FloatingMenu } from "@/app/components/FloatingMenu";
 
-import styles from "./request.module.css";
+import styles from "./request-page.module.css";
 
 const MAINTAINERS = [
   "kinoto0103",
