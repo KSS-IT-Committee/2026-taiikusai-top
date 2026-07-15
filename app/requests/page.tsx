@@ -1,7 +1,8 @@
-import { FloatingMenu } from "@/app/components/FloatingMenu";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+import { FloatingMenu } from "@/app/components/FloatingMenu";
 
 import styles from "./request-page.module.css";
 
