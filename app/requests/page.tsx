@@ -89,7 +89,7 @@ export default function RequestPage() {
       <FloatingMenu items={[{ label: "Top", href: "/" }]} />
     </div>
   );
-}/**
+} /**
  * Renders children only for a logged-in user who holds at least one of the
  * roles in `role`; everyone else gets nothing — the fragment leaves no trace
  * in the HTML.
@@ -101,7 +101,8 @@ export default function RequestPage() {
  */
 
 export async function Internal({
-  children, role,
+  children,
+  role,
 }: {
   children: React.ReactNode;
   role?: Role | readonly Role[];
@@ -112,4 +113,3 @@ export async function Internal({
   }
   return <>{children}</>;
 }
-
