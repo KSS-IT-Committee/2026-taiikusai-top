@@ -4,8 +4,8 @@ import Link from "next/link";
 
 import { FloatingMenu } from "@/app/components/FloatingMenu";
 import { hasAnyRole, INTERNAL_ROLES, type Role } from "@/lib/access";
-
 import { getCurrentUser } from "@/lib/session";
+
 import styles from "./request-page.module.css";
 
 export const metadata: Metadata = {
