@@ -49,10 +49,10 @@ export default function RequestPage() {
         このサイトへの新機能の追加や修正を提案することができます。
       </p>
       <Internal role={INTERNAL_ROLES}>
-      <h2 className={styles.sectionTitle}>委員に直接伝える</h2>
-      <p className={styles.description}>
-        IT委員に直接お伝えください。内容を委員会で検討し、必要に応じて新機能の追加や修正を行います。
-      </p>
+        <h2 className={styles.sectionTitle}>委員に直接伝える</h2>
+        <p className={styles.description}>
+          IT委員に直接お伝えください。内容を委員会で検討し、必要に応じて新機能の追加や修正を行います。
+        </p>
       </Internal>
       <h2 className={styles.sectionTitle}>GitHub上でIssueを作成する</h2>
       <p className={styles.description}>
