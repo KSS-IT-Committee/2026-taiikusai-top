@@ -1,10 +1,11 @@
-import { FloatingMenu } from "@/app/components/FloatingMenu";
-import { Internal } from "@/components/Internal";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { FloatingMenu } from "@/app/components/FloatingMenu";
+import { Internal } from "@/components/Internal";
 import { INTERNAL_ROLES } from "@/lib/access";
+
 import styles from "./request-page.module.css";
 
 export const metadata: Metadata = {
