@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FloatingMenu } from "@/app/components/FloatingMenu";
-import { hasAnyRole, INTERNAL_ROLES, type Role } from "@/lib/access";
-import { getCurrentUser } from "@/lib/session";
+import { Internal } from "@/app/components/Internal";
+import { INTERNAL_ROLES } from "@/lib/access";
 
 import styles from "./request-page.module.css";
 
@@ -75,7 +75,7 @@ export default function RequestPage() {
         >
           委員会のメールアドレス(koishikawa.itcommittee@gmail.com)
         </Link>
-        宛にメールをお送りください。その際、どのページに関する提案か（このページであれば「行事週間トップページ」）を本文に記載してください。
+        宛にメールをお送りください。その際、どのページに関する提案か（このページであれば「体育祭トップページ」）を本文に記載してください。
       </p>
 
       <p className={styles.maintainersNote}>
@@ -89,27 +89,4 @@ export default function RequestPage() {
       <FloatingMenu items={[{ label: "Top", href: "/" }]} />
     </div>
   );
-} /**
- * Renders children only for a logged-in user who holds at least one of the
- * roles in `role`; everyone else gets nothing — the fragment leaves no trace
- * in the HTML.
- *
- * Deny-by-default: with no `role` prop it renders nothing for anybody.
- * Callers must state which roles may see the fragment —
- * `role={INTERNAL_ROLES}` for "any logged-in school account". Username
- * shapes are never consulted.
- */
-
-export async function Internal({
-  children,
-  role,
-}: {
-  children: React.ReactNode;
-  role?: Role | readonly Role[];
-}) {
-  const user = await getCurrentUser();
-  if (!user || role === undefined || !hasAnyRole(user, role)) {
-    return null;
-  }
-  return <>{children}</>;
 }
