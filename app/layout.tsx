@@ -4,9 +4,9 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { AccountBar } from "@/components/AccountNav/AccountBar";
-import { Footer } from "@/components/Footer";
-import { NoScriptAlert } from "@/components/NoScriptAlert";
+import { AccountBar } from "@/app/components/AccountNav/AccountBar";
+import { Footer } from "@/app/components/Footer";
+import { NoScriptAlert } from "@/app/components/NoScriptAlert";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
