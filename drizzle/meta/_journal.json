@@ -29,13 +29,6 @@
       "when": 1784111606176,
       "tag": "0003_blushing_quasimodo",
       "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1784200000000,
-      "tag": "0004_bold_shadowcat",
-      "breakpoints": true
     }
   ]
 }
