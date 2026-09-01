@@ -16,7 +16,7 @@ type Entry = {
 };
 
 const COMMIT_URL_BASE =
-  "https://github.com/KSS-IT-Committee/2026-event-week-top/commit/";
+  "https://github.com/KSS-IT-Committee/2026-taiikusai-top/commit/";
 
 export const metadata: Metadata = {
   title: "Changelog | 行事週間2026",
