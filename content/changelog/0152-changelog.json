@@ -1,5 +1,5 @@
 {
-  "title": "fix in changelog's base url",
-  "description": "TODO",
+  "title": "changelogページのバグの修正",
+  "description": "コミットハッシュをクリックしたときに適切にページへ飛ばされない問題を修正しました。",
   "credits": ["@rotarymars"]
 }
