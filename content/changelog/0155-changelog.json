@@ -1,0 +1,5 @@
+{
+  "title": "Bump github/codeql-action from 4.37.7 to 4.37.9",
+  "description": "Actionのバージョンを上げました。これによるページの変更はありません。",
+  "credits": ["@dependabot[bot]"]
+}
