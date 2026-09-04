@@ -1,0 +1,5 @@
+{
+  "title": "Bump browserslist from 4.28.2 to 4.28.8 in the npm_and_yarn group across 1 directory",
+  "description": "パッケージのバージョンを上げました。これによるページの変更はありません。",
+  "credits": ["@dependabot[bot]"]
+}
