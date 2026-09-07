@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
+import { pageMetadata, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "2026体育祭",
-  description: "今日、勝ちにきました",
-};
+export const metadata: Metadata = pageMetadata({
+  title: `${SITE_NAME} | 東京都立小石川中等教育学校`,
+  isTitleAbsolute: true,
+  description: SITE_DESCRIPTION,
+  path: "/",
+});
 
 export default function Toppage() {
   return (
