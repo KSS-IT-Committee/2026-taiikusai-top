@@ -1,7 +1,8 @@
 /**
- * The 本大会 program and the four 団, as printed in the R8 ルールブック. Shared
- * by the public 得点表 and the committee's edit form so both agree on which
- * rows exist, in what order, and under which name.
+ * The rows of the 得点表 — the 予備大 plus the 本大会 program as printed in the
+ * R8 ルールブック — and the four 団. Shared by the public table and the
+ * committee's edit form so both agree on which rows exist, in what order, and
+ * under which name.
  */
 
 export const TEAMS = [
@@ -16,15 +17,19 @@ export type TeamId = (typeof TEAMS)[number]["id"];
 /** One row of the 得点表: a program number plus a score per 団. */
 export type ProgramScore = { program: number } & Record<TeamId, number | null>;
 
-type Program = {
+export type Program = {
   number: number;
   name: string;
   entrants: string;
 };
 
+/** The 予備大's row key. It has no rulebook number, and 0 sorts it first. */
+const YOBITAI = 0;
+
 // Program numbers come from the rulebook, so 競技9 部活動対抗リレー is missing
 // on purpose — it is the one program whose result is not added to the 団 score.
 export const PROGRAMS: readonly Program[] = [
+  { number: YOBITAI, name: "予備大", entrants: "全学年" },
   { number: 1, name: "ハリケーン", entrants: "1年" },
   { number: 2, name: "学年リレー", entrants: "3年" },
   { number: 3, name: "筏流し", entrants: "2年" },
@@ -49,6 +54,11 @@ export const PROGRAMS: readonly Program[] = [
 // 入力ミスを弾くためだけのものなので、ルール上ありえない桁で切っている。
 export const MAX_SCORE = 999;
 
+export function programLabel(program: Program): string {
+  if (program.number === YOBITAI) return program.name;
+  return `${program.number}. ${program.name}`;
+}
+
 export function sumByTeam(
   scores: readonly ProgramScore[],
 ): Record<TeamId, number> {
@@ -64,4 +74,19 @@ export function sumByTeam(
     }
   }
   return totals;
+}
+
+/**
+ * Placing by total, highest first. Teams on the same total share a place and
+ * the next one is skipped, so a tie for 1位 is followed by 3位.
+ */
+export function rankByTeam(
+  totals: Record<TeamId, number>,
+): Record<TeamId, number> {
+  const descending = TEAMS.map((team) => totals[team.id]).sort((a, b) => b - a);
+  const ranks: Record<TeamId, number> = { blue: 0, red: 0, green: 0, white: 0 };
+  for (const team of TEAMS) {
+    ranks[team.id] = descending.indexOf(totals[team.id]) + 1;
+  }
+  return ranks;
 }

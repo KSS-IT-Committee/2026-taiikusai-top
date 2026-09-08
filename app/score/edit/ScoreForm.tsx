@@ -2,7 +2,13 @@
 
 import { useActionState } from "react";
 
-import { MAX_SCORE, PROGRAMS, type ProgramScore, TEAMS } from "@/lib/score";
+import {
+  MAX_SCORE,
+  programLabel,
+  PROGRAMS,
+  type ProgramScore,
+  TEAMS,
+} from "@/lib/score";
 
 import { type ScoreFormState, submitScoresAction } from "./actions";
 import styles from "./edit.module.css";
@@ -39,7 +45,7 @@ export function ScoreForm({ scores }: { scores: ProgramScore[] }) {
               return (
                 <tr key={program.number}>
                   <th scope="row">
-                    {program.number}. {program.name}
+                    {programLabel(program)}
                     <span className={styles.entrants}>{program.entrants}</span>
                   </th>
                   {TEAMS.map((team) => (

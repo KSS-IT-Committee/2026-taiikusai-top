@@ -1,3 +1,37 @@
+/* The block paints its own light ground so the 団 colours keep their contrast
+   whichever colour scheme the visitor is on. */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px clamp(8px, 3vw, 48px);
+  margin-bottom: 24px;
+  padding: 20px clamp(12px, 3vw, 32px);
+  border-radius: 8px;
+  background-color: #f2f6fb;
+  color: #17324d;
+  text-align: center;
+}
+.teamName {
+  display: block;
+  padding-bottom: 4px;
+  border-bottom: 3px solid var(--team-color);
+  color: var(--team-text);
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 700;
+}
+.teamScore {
+  display: block;
+  margin-top: 8px;
+  font-size: clamp(32px, 7vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.teamRank {
+  display: block;
+  font-size: clamp(12px, 1.6vw, 14px);
+  color: #5a6b7d;
+}
 .scroll {
   overflow-x: auto;
 }
@@ -33,15 +67,29 @@
   font-weight: 400;
   color: #5a6b7d;
 }
+/* --team-color is the 団's own colour, used for the rules under each name;
+   --team-text is the darkened form the name itself is set in, because 白's
+   colour has no contrast to speak of against the block behind it. */
 .blue {
   --team-color: #1174ff;
+  --team-text: #0b5ed7;
 }
 .red {
   --team-color: #e04a4a;
+  --team-text: #c62828;
 }
 .green {
   --team-color: #2fa05a;
+  --team-text: #1f7a44;
 }
 .white {
   --team-color: #b0b8c1;
+  --team-text: #4b5563;
+}
+
+/* Four across is too tight once the page padding is taken off a phone. */
+@media (max-width: 640px) {
+  .summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
