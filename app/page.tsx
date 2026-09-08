@@ -22,13 +22,23 @@ const KOUKI_RESULTS = [
 
 const RANK_LABELS = ["1位", "2位", "3位", "4位"];
 
+// The wrapper scrolls sideways on narrow screens, so it takes focus and a
+// name of its own — otherwise the off-screen columns are reachable by
+// pointer only.
 function ResultTable({
+  label,
   results,
 }: {
+  label: string;
   results: { sport: string; ranking: string[] }[];
 }) {
   return (
-    <div className={styles.tableScroll}>
+    <div
+      className={styles.tableScroll}
+      role="region"
+      aria-label={label}
+      tabIndex={0}
+    >
       <table className={styles.resultTable}>
         <thead>
           <tr>
@@ -92,7 +102,7 @@ export default function Toppage() {
             >
               後期
             </h2>
-            <ResultTable results={KOUKI_RESULTS} />
+            <ResultTable label="後期予備大結果" results={KOUKI_RESULTS} />
           </div>
         </div>
       </div>
