@@ -70,6 +70,15 @@
   --line-color: #e0789b;
 }
 
+.scores {
+  margin-bottom: 40px;
+}
+.editLink {
+  display: inline-block;
+  margin-top: 16px;
+  color: #1174ff;
+  text-decoration: underline;
+}
 .pending {
   color: #6b6b6b;
 }

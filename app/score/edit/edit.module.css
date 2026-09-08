@@ -1,0 +1,79 @@
+.main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 50px;
+}
+.title {
+  font-family: "Yu Mincho", serif;
+  font-size: clamp(24px, 3vw, 32px);
+  margin-bottom: 16px;
+}
+.intro {
+  margin-bottom: 24px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.table {
+  border-collapse: collapse;
+  min-width: 480px;
+  font-size: clamp(13px, 1.6vw, 16px);
+}
+.table th,
+.table td {
+  border: 1px solid #c8d6e5;
+  padding: 6px 12px;
+  text-align: center;
+}
+.table thead th,
+.table tbody th {
+  background-color: #f2f6fb;
+  color: #17324d;
+}
+.table tbody th {
+  text-align: left;
+  white-space: nowrap;
+}
+.entrants {
+  margin-left: 8px;
+  font-size: 0.8em;
+  font-weight: 400;
+  color: #5a6b7d;
+}
+.input {
+  width: 72px;
+  padding: 4px 8px;
+  border: 1px solid #c8d6e5;
+  border-radius: 4px;
+  text-align: right;
+}
+.submitButton {
+  padding: 8px 32px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1174ff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+.submitButton:disabled {
+  background-color: #9dc4f5;
+  cursor: progress;
+}
+.formStatus {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+}
