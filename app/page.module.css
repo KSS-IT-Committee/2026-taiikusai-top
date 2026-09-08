@@ -79,6 +79,33 @@
   color: #1174ff;
   text-decoration: underline;
 }
+.pending {
+  color: #6b6b6b;
+}
+.tableScroll {
+  overflow-x: auto;
+}
+.resultTable {
+  border-collapse: collapse;
+  min-width: 420px;
+  font-size: clamp(13px, 1.6vw, 16px);
+}
+.resultTable th,
+.resultTable td {
+  border: 1px solid #c8d6e5;
+  padding: 8px 16px;
+  text-align: center;
+}
+.resultTable thead th {
+  background-color: #eaf4ff;
+  color: #17324d;
+}
+.resultTable tbody th {
+  text-align: left;
+  white-space: nowrap;
+  background-color: #fdf1f5;
+  color: #17324d;
+}
 
 @media (max-width: 768px) {
   .header {
