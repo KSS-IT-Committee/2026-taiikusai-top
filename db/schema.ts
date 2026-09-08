@@ -2,10 +2,13 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   check,
+  customType,
   index,
   integer,
   pgEnum,
   pgTable,
+  serial,
+  text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -97,6 +100,30 @@ export const taiikusaiScores = pgTable("taiikusai_scores", {
   green: integer("green"),
   white: integer("white"),
   updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+// Drizzle has no built-in bytea column; postgres-js hands the value back as a
+// Buffer either way.
+const bytea = customType<{ data: Buffer }>({
+  dataType() {
+    return "bytea";
+  },
+});
+
+// The 忘れ物 board. The picture itself lives in the row: the app containers are
+// swapped blue/green and have no writable disk that survives, so the shared
+// appdata is the only place a photo can outlive a deploy. uploaded_by is
+// deliberately not a foreign key to users — a preview's roster is a trimmed
+// copy of production's and a local dev user is in neither.
+export const taiikusaiLostItems = pgTable("taiikusai_lost_items", {
+  id: serial("id").primaryKey(),
+  description: text("description"),
+  contentType: varchar("content_type", { length: 64 }).notNull(),
+  imageBytes: bytea("image_bytes").notNull(),
+  uploadedBy: varchar("uploaded_by", { length: 32 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
 });

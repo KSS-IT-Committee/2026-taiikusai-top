@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Internal } from "@/app/components/Internal";
 import { ScoreTable } from "@/app/components/ScoreTable";
 import { SCORE_ADMIN_ROLES } from "@/lib/score-access";
-
 import { pageMetadata, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 
 import styles from "./page.module.css";
@@ -104,6 +103,9 @@ export default function Toppage() {
             </Link>
           </Internal>
         </div>
+        <p className={styles.lostItemsLink}>
+          <Link href="/lost-items">忘れ物一覧はこちら</Link>
+        </p>
         <div className={styles.yobitai}>
           <h1
             className={`${styles.title} ${styles.titleLine} ${styles.lineBlue}`}
