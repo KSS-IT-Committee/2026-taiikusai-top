@@ -84,7 +84,7 @@ export default function Toppage() {
             >
               前期
             </h2>
-            <p className={styles.pending}>結果が出次第公開します。</p>
+            <p className={styles.pending}>後日改めて公開します。</p>
           </div>
           <div className={styles.topics}>
             <h2
