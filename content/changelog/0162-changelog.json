@@ -1,5 +1,5 @@
 {
-  "title": "Feature/score table",
-  "description": "TODO",
+  "title": "得点表の追加",
+  "description": "トップページに本大会の得点表を追加しました。競技ごとの各団の得点と、その合計が見られます。",
   "credits": ["@rotarymars"]
 }
