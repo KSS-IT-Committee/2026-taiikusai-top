@@ -1,5 +1,5 @@
 {
-  "title": "Add the timetable page and the 今開催中 strip",
-  "description": "TODO",
+  "title": "タイムテーブルの追加",
+  "description": "タイムテーブルのページを追加しました。当日どの競技を行っているかと、予定からの押し・巻きも表示されます。",
   "credits": ["@rotarymars"]
 }
