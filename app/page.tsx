@@ -8,6 +8,63 @@ export const metadata: Metadata = {
   description: "今日、勝ちにきました",
 };
 
+// 後期予備大の順位。1位から4位の順に組を並べる。
+const KOUKI_RESULTS = [
+  { sport: "サッカー", ranking: ["D組", "B組", "C組", "A組"] },
+  { sport: "アルティメット", ranking: ["B組", "C組", "A組", "D組"] },
+  { sport: "ドッヂボール女子", ranking: ["D組", "A組", "B組", "C組"] },
+  { sport: "ドッヂボール男子", ranking: ["B組", "C組", "D組", "A組"] },
+  { sport: "バスケットボール女子", ranking: ["A組", "C組", "B組", "D組"] },
+  { sport: "バスケットボール男子", ranking: ["D組", "A組", "C組", "B組"] },
+  { sport: "バレーボール女子", ranking: ["D組", "C組", "A組", "B組"] },
+  { sport: "バレーボール男子", ranking: ["A組", "C組", "D組", "B組"] },
+];
+
+const RANK_LABELS = ["1位", "2位", "3位", "4位"];
+
+// The wrapper scrolls sideways on narrow screens, so it takes focus and a
+// name of its own — otherwise the off-screen columns are reachable by
+// pointer only.
+function ResultTable({
+  label,
+  results,
+}: {
+  label: string;
+  results: { sport: string; ranking: string[] }[];
+}) {
+  return (
+    <div
+      className={styles.tableScroll}
+      role="region"
+      aria-label={label}
+      tabIndex={0}
+    >
+      <table className={styles.resultTable}>
+        <thead>
+          <tr>
+            <th scope="col">種目</th>
+            {RANK_LABELS.map((label) => (
+              <th key={label} scope="col">
+                {label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {results.map(({ sport, ranking }) => (
+            <tr key={sport}>
+              <th scope="row">{sport}</th>
+              {ranking.map((group, index) => (
+                <td key={RANK_LABELS[index]}>{group}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function Toppage() {
   return (
     <>
@@ -37,7 +94,7 @@ export default function Toppage() {
             >
               前期
             </h2>
-            <p>ここに内容を追加</p>
+            <p className={styles.pending}>後日改めて公開します。</p>
           </div>
           <div className={styles.topics}>
             <h2
@@ -45,7 +102,7 @@ export default function Toppage() {
             >
               後期
             </h2>
-            <p>ここに内容を追加</p>
+            <ResultTable label="後期予備大結果" results={KOUKI_RESULTS} />
           </div>
         </div>
       </div>
