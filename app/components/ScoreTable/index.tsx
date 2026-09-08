@@ -17,7 +17,14 @@ export async function ScoreTable() {
   const totals = sumByTeam(listed);
 
   return (
-    <div className={styles.scroll}>
+    // Nothing inside takes focus, so the wrapper does — otherwise the columns
+    // it scrolls out of view on a narrow screen are pointer-only.
+    <div
+      className={styles.scroll}
+      role="region"
+      aria-label="得点表"
+      tabIndex={0}
+    >
       <table className={styles.table}>
         <thead>
           <tr>
