@@ -1,0 +1,47 @@
+.scroll {
+  overflow-x: auto;
+}
+.table {
+  border-collapse: collapse;
+  min-width: 420px;
+  font-size: clamp(13px, 1.6vw, 16px);
+}
+.table th,
+.table td {
+  border: 1px solid #c8d6e5;
+  padding: 8px 16px;
+  text-align: center;
+}
+.table thead th {
+  background-color: #f2f6fb;
+  color: #17324d;
+  border-bottom: 3px solid var(--team-color, #c8d6e5);
+}
+.table tbody th,
+.table tfoot th {
+  text-align: left;
+  white-space: nowrap;
+  background-color: #f2f6fb;
+  color: #17324d;
+}
+.table tfoot td {
+  font-weight: 700;
+}
+.entrants {
+  margin-left: 8px;
+  font-size: 0.8em;
+  font-weight: 400;
+  color: #5a6b7d;
+}
+.blue {
+  --team-color: #1174ff;
+}
+.red {
+  --team-color: #e04a4a;
+}
+.green {
+  --team-color: #2fa05a;
+}
+.white {
+  --team-color: #b0b8c1;
+}

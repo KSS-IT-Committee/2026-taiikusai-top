@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+
+import { Internal } from "@/app/components/Internal";
+import { ScoreTable } from "@/app/components/ScoreTable";
+import { SCORE_ADMIN_ROLES } from "@/lib/score-access";
 
 import styles from "./page.module.css";
 
@@ -25,6 +30,19 @@ export default function Toppage() {
         <span className={styles.headerText}>体育祭2026</span>
       </header>
       <div className={styles.container}>
+        <div className={styles.scores}>
+          <h1
+            className={`${styles.title} ${styles.titleLine} ${styles.lineBlue}`}
+          >
+            得点表
+          </h1>
+          <ScoreTable />
+          <Internal role={SCORE_ADMIN_ROLES}>
+            <Link className={styles.editLink} href="/score/edit">
+              得点を入力する
+            </Link>
+          </Internal>
+        </div>
         <div className={styles.yobitai}>
           <h1
             className={`${styles.title} ${styles.titleLine} ${styles.lineBlue}`}

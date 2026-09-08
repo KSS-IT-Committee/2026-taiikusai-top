@@ -3,6 +3,7 @@ import {
   boolean,
   check,
   index,
+  integer,
   pgEnum,
   pgTable,
   timestamp,
@@ -84,3 +85,18 @@ export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Session = typeof sessions.$inferSelect;
 export type NewSession = typeof sessions.$inferInsert;
+
+// The 本大会 score board. One row per program (the rulebook's competition
+// number), one column per 団; a program that has not been scored yet keeps
+// NULL so the table can tell "0 points" from "not run yet". Only this app
+// writes it — see lib/score-access.ts for who may.
+export const taiikusaiScores = pgTable("taiikusai_scores", {
+  program: integer("program").primaryKey(),
+  blue: integer("blue"),
+  red: integer("red"),
+  green: integer("green"),
+  white: integer("white"),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
