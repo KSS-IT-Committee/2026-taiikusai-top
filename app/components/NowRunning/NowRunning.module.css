@@ -1,0 +1,57 @@
+/* Paints its own light ground so the badge and the 押し/巻き chip keep their
+   contrast whichever colour scheme the visitor is on. */
+.strip {
+  padding: 20px clamp(12px, 3vw, 28px);
+  border-radius: 8px;
+  background-color: #f2f6fb;
+  color: #17324d;
+}
+.idle {
+  color: #5a6b7d;
+}
+.current {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+}
+.badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background-color: #e0789b;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.name {
+  font-family: "Yu Mincho", serif;
+  font-size: clamp(18px, 3vw, 24px);
+}
+.time {
+  color: #5a6b7d;
+  font-size: 14px;
+}
+.delay {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background-color: #fbe4ec;
+  color: #8f3453;
+  font-size: 13px;
+  font-weight: 700;
+}
+.onTime {
+  background-color: #e2eefc;
+  color: #0b5ed7;
+}
+.next {
+  margin-top: 8px;
+  color: #5a6b7d;
+  font-size: 14px;
+}
+.link {
+  display: inline-block;
+  margin-top: 12px;
+  color: #1174ff;
+  font-size: 14px;
+  text-decoration: underline;
+}
