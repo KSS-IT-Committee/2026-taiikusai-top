@@ -6,12 +6,16 @@ import { Internal } from "@/app/components/Internal";
 import { ScoreTable } from "@/app/components/ScoreTable";
 import { SCORE_ADMIN_ROLES } from "@/lib/score-access";
 
+import { pageMetadata, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "2026体育祭",
-  description: "今日、勝ちにきました",
-};
+export const metadata: Metadata = pageMetadata({
+  title: `${SITE_NAME} | 東京都立小石川中等教育学校`,
+  isTitleAbsolute: true,
+  description: SITE_DESCRIPTION,
+  path: "/",
+});
 
 // 後期予備大の順位。1位から4位の順に組を並べる。
 const KOUKI_RESULTS = [
