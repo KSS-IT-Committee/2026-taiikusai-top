@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useActionState } from "react";
 
 import type { LostItem } from "@/db/getLostItems";
+import { IMAGE_URL_PREFIX } from "@/lib/lost-items";
 
 import { deleteLostItemAction, type LostItemFormState } from "./actions";
 import styles from "./edit.module.css";
@@ -30,7 +31,7 @@ export function DeleteList({ items }: { items: LostItem[] }) {
           <li key={item.id} className={styles.row}>
             <div className={styles.thumbFrame}>
               <Image
-                src={`/api/lost-items/${item.id}`}
+                src={`${IMAGE_URL_PREFIX}${item.fileName}`}
                 alt={item.description ?? "忘れ物の写真"}
                 fill
                 sizes="72px"

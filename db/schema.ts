@@ -2,7 +2,6 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   check,
-  customType,
   index,
   integer,
   pgEnum,
@@ -104,24 +103,18 @@ export const taiikusaiScores = pgTable("taiikusai_scores", {
     .notNull(),
 });
 
-// Drizzle has no built-in bytea column; postgres-js hands the value back as a
-// Buffer either way.
-const bytea = customType<{ data: Buffer }>({
-  dataType() {
-    return "bytea";
-  },
-});
-
-// The 忘れ物 board. The picture itself lives in the row: the app containers are
-// swapped blue/green and have no writable disk that survives, so the shared
-// appdata is the only place a photo can outlive a deploy. uploaded_by is
-// deliberately not a foreign key to users — a preview's roster is a trimmed
-// copy of production's and a local dev user is in neither.
+// The 忘れ物 board. Only the metadata is here — the photo itself is written to
+// the persistent /app/files mount and served by app/lost-item-images/[name],
+// the same arrangement equipment-management uses. file_name is not unique:
+// names are content-addressed, so posting the same photo twice yields two rows
+// pointing at one file (see deleteLostItemAction, which unlinks only once the
+// last row referencing a name is gone). uploaded_by is deliberately not a
+// foreign key to users — a preview's roster is a trimmed copy of production's
+// and a local dev user is in neither.
 export const taiikusaiLostItems = pgTable("taiikusai_lost_items", {
   id: serial("id").primaryKey(),
   description: text("description"),
-  contentType: varchar("content_type", { length: 64 }).notNull(),
-  imageBytes: bytea("image_bytes").notNull(),
+  fileName: varchar("file_name", { length: 160 }).notNull(),
   uploadedBy: varchar("uploaded_by", { length: 32 }).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()

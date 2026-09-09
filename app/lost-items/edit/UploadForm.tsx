@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 
 import {
-  ALLOWED_IMAGE_TYPES,
+  ALLOWED_IMAGE_LABEL,
+  IMAGE_ACCEPT,
   MAX_DESCRIPTION_LENGTH,
   MAX_IMAGE_BYTES,
 } from "@/lib/lost-items";
@@ -33,10 +34,12 @@ export function UploadForm() {
           id="image"
           type="file"
           name="image"
-          accept={ALLOWED_IMAGE_TYPES.join(",")}
+          accept={IMAGE_ACCEPT}
           required
         />
-        <p className={styles.hint}>JPEG・PNG・WebP、{megabytes}MBまで。</p>
+        <p className={styles.hint}>
+          {ALLOWED_IMAGE_LABEL}、{megabytes}MBまで。
+        </p>
       </div>
       <div className={styles.field}>
         <label className={styles.label} htmlFor="description">

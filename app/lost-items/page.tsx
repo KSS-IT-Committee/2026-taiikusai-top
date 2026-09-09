@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FloatingMenu } from "@/app/components/FloatingMenu";
 import { Internal } from "@/app/components/Internal";
 import { getLostItems } from "@/db/getLostItems";
+import { IMAGE_URL_PREFIX } from "@/lib/lost-items";
 import { LOST_ITEM_ADMIN_ROLES } from "@/lib/lost-items-access";
 import { pageMetadata } from "@/lib/site";
 
@@ -39,7 +40,7 @@ export default async function LostItemsPage() {
             <li key={item.id} className={styles.card}>
               <div className={styles.frame}>
                 <Image
-                  src={`/api/lost-items/${item.id}`}
+                  src={`${IMAGE_URL_PREFIX}${item.fileName}`}
                   alt={item.description ?? "忘れ物の写真"}
                   fill
                   sizes="(max-width: 640px) 50vw, 240px"

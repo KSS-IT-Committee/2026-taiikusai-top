@@ -1,13 +1,17 @@
 "use server";
 
+import { createHash } from "node:crypto";
+import { mkdir, unlink, writeFile } from "node:fs/promises";
+import path from "node:path";
+
 import { revalidatePath } from "next/cache";
 
 import { addLostItem } from "@/db/addLostItem";
 import { deleteLostItem } from "@/db/deleteLostItem";
 import { hasAnyRole } from "@/lib/access";
+import { detectImageType, lostItemImagesDir } from "@/lib/lost-item-images";
 import {
-  isAllowedImageType,
-  looksLikeImageType,
+  ALLOWED_IMAGE_LABEL,
   MAX_DESCRIPTION_LENGTH,
   MAX_IMAGE_BYTES,
 } from "@/lib/lost-items";
@@ -32,6 +36,20 @@ function revalidate() {
   revalidatePath("/lost-items/edit");
 }
 
+/**
+ * Writes the photo onto the persistent mount under a content-addressed name:
+ * the SHA-256 of the bytes plus the extension the bytes themselves imply. Two
+ * uploads collide on a name only when they are the same picture, which is what
+ * lets the serving route mark these URLs immutable.
+ */
+async function saveImage(bytes: Buffer, ext: string): Promise<string> {
+  const fileName = `${createHash("sha256").update(bytes).digest("hex")}${ext}`;
+  const dir = lostItemImagesDir();
+  await mkdir(dir, { recursive: true });
+  await writeFile(path.join(dir, fileName), bytes);
+  return fileName;
+}
+
 export async function submitLostItemAction(
   _previousState: LostItemFormState,
   formData: FormData,
@@ -49,18 +67,15 @@ export async function submitLostItemAction(
     const limit = Math.floor(MAX_IMAGE_BYTES / 1024 / 1024);
     return { error: `写真は${limit}MBまでです。`, message: null };
   }
-  if (!isAllowedImageType(image.type)) {
-    return {
-      error: "写真はJPEG・PNG・WebPのいずれかにしてください。",
-      message: null,
-    };
-  }
 
-  const imageBytes = Buffer.from(await image.arrayBuffer());
-  if (!looksLikeImageType(imageBytes, image.type)) {
+  // The browser's Content-Type comes from the file extension, so it is only a
+  // hint — the bytes decide. A renamed HEIC (what phones produce) lands here
+  // labelled image/jpeg and is turned away rather than published unviewable.
+  const bytes = Buffer.from(await image.arrayBuffer());
+  const detected = detectImageType(bytes);
+  if (detected === null) {
     return {
-      error:
-        "写真のファイル形式が拡張子と一致しません。iPhoneのHEIC形式などは、JPEGに変換してからアップロードしてください。",
+      error: `写真は${ALLOWED_IMAGE_LABEL}のいずれかにしてください。iPhoneのHEIC形式は、JPEGに変換してからアップロードしてください。`,
       message: null,
     };
   }
@@ -75,14 +90,26 @@ export async function submitLostItemAction(
     };
   }
 
+  let fileName: string;
+  try {
+    fileName = await saveImage(bytes, detected.ext);
+  } catch (err) {
+    console.error("忘れ物の写真の保存に失敗しました:", err);
+    return { error: "写真の保存に失敗しました。", message: null };
+  }
+
   try {
     await addLostItem({
       description: description === "" ? null : description,
-      contentType: image.type,
-      imageBytes,
+      fileName,
       uploadedBy: operator.username,
     });
-  } catch {
+  } catch (err) {
+    console.error("忘れ物の追加に失敗しました:", err);
+    // The file is now unreferenced. It is content-addressed, so an identical
+    // photo posted later would reuse it — but leaving a stray file behind on a
+    // failed insert is still worth cleaning up.
+    await unlinkQuietly(fileName);
     return { error: "忘れ物の追加に失敗しました。", message: null };
   }
 
@@ -104,12 +131,39 @@ export async function deleteLostItemAction(
     return { error: "削除する忘れ物が指定されていません。", message: null };
   }
 
+  let deleted: Awaited<ReturnType<typeof deleteLostItem>>;
   try {
-    await deleteLostItem(Number(rawId));
-  } catch {
+    deleted = await deleteLostItem(Number(rawId));
+  } catch (err) {
+    console.error("忘れ物の削除に失敗しました:", err);
     return { error: "忘れ物の削除に失敗しました。", message: null };
+  }
+
+  // The row goes first: an orphaned file wastes a little disk, whereas a row
+  // pointing at a file that is already gone is a broken picture on a public
+  // page. Only the last row referencing a name may take the file with it.
+  if (deleted !== null && deleted.remainingRefs === 0) {
+    await unlinkQuietly(deleted.fileName);
   }
 
   revalidate();
   return { error: null, message: "忘れ物を削除しました。" };
+}
+
+async function unlinkQuietly(fileName: string) {
+  const dir = path.resolve(lostItemImagesDir());
+  // basename() drops any directory parts, so this can only ever resolve to a
+  // file directly inside the images dir — no traversal possible.
+  const filePath = path.resolve(dir, path.basename(fileName));
+  if (path.dirname(filePath) !== dir) return;
+
+  try {
+    await unlink(filePath);
+  } catch (err) {
+    // An already-missing file is fine; surface anything else without failing
+    // the request the operator just completed.
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
+      console.error("写真ファイルの削除に失敗しました:", err);
+    }
+  }
 }
