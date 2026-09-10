@@ -130,10 +130,17 @@ export async function deleteLostItemAction(
   if (typeof rawId !== "string" || !/^\d+$/.test(rawId)) {
     return { error: "削除する忘れ物が指定されていません。", message: null };
   }
+  // The digits still have to land on a real id. Without this, "0" matches no
+  // row yet still reports success, and anything past 2^53 either rounds onto a
+  // different id or reaches Postgres as 1e+21, which an int4 cannot parse.
+  const id = Number(rawId);
+  if (!Number.isSafeInteger(id) || id <= 0) {
+    return { error: "削除する忘れ物が指定されていません。", message: null };
+  }
 
   let deleted: Awaited<ReturnType<typeof deleteLostItem>>;
   try {
-    deleted = await deleteLostItem(Number(rawId));
+    deleted = await deleteLostItem(id);
   } catch (err) {
     console.error("忘れ物の削除に失敗しました:", err);
     return { error: "忘れ物の削除に失敗しました。", message: null };
