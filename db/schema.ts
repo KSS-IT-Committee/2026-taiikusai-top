@@ -6,6 +6,8 @@ import {
   integer,
   pgEnum,
   pgTable,
+  serial,
+  text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -117,3 +119,21 @@ export const taiikusaiProgress = pgTable(
   },
   (table) => [check("taiikusai_progress_single_row", sql`${table.id} = 1`)],
 );
+
+// The 忘れ物 board. Only the metadata is here — the photo itself is written to
+// the persistent /app/files mount and served by app/lost-item-images/[name],
+// the same arrangement equipment-management uses. file_name is not unique:
+// names are content-addressed, so posting the same photo twice yields two rows
+// pointing at one file (see deleteLostItemAction, which unlinks only once the
+// last row referencing a name is gone). uploaded_by is deliberately not a
+// foreign key to users — a preview's roster is a trimmed copy of production's
+// and a local dev user is in neither.
+export const taiikusaiLostItems = pgTable("taiikusai_lost_items", {
+  id: serial("id").primaryKey(),
+  description: text("description"),
+  fileName: varchar("file_name", { length: 160 }).notNull(),
+  uploadedBy: varchar("uploaded_by", { length: 32 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});

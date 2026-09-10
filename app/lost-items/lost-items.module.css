@@ -1,0 +1,63 @@
+.main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 50px;
+}
+.title {
+  font-family: "Yu Mincho", serif;
+  font-size: clamp(24px, 3vw, 32px);
+  margin-bottom: 16px;
+}
+.lead {
+  margin-bottom: 16px;
+}
+.editLink {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #1174ff;
+  text-decoration: underline;
+}
+.empty {
+  color: #6b6b6b;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+}
+.card {
+  border: 1px solid #c8d6e5;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f2f6fb;
+  color: #17324d;
+}
+/* The photos come in every shape a phone camera produces, so each one is
+   cropped into the same square rather than letting the grid go ragged. */
+.frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: #e3ebf4;
+}
+.photo {
+  object-fit: cover;
+}
+.description {
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+  }
+}

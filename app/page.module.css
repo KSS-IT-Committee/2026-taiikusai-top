@@ -76,6 +76,13 @@
 .scores {
   margin-bottom: 40px;
 }
+.lostItemsLink {
+  margin-bottom: 40px;
+}
+.lostItemsLink a {
+  color: #1174ff;
+  text-decoration: underline;
+}
 .editLink {
   display: inline-block;
   margin-top: 16px;

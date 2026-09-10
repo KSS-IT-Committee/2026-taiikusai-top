@@ -107,6 +107,9 @@ export default function Toppage() {
             </Link>
           </Internal>
         </div>
+        <p className={styles.lostItemsLink}>
+          <Link href="/lost-items">忘れ物一覧はこちら</Link>
+        </p>
         <div className={styles.yobitai}>
           <h1
             className={`${styles.title} ${styles.titleLine} ${styles.lineBlue}`}
