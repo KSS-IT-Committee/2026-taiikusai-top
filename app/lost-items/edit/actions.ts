@@ -1,15 +1,13 @@
 "use server";
 
 import { createHash } from "node:crypto";
-import { mkdir, unlink, writeFile } from "node:fs/promises";
-import path from "node:path";
 
 import { revalidatePath } from "next/cache";
 
 import { addLostItem } from "@/db/addLostItem";
 import { deleteLostItem } from "@/db/deleteLostItem";
 import { hasAnyRole } from "@/lib/access";
-import { detectImageType, lostItemImagesDir } from "@/lib/lost-item-images";
+import { detectImageType } from "@/lib/lost-item-images";
 import {
   ALLOWED_IMAGE_LABEL,
   MAX_DESCRIPTION_LENGTH,
@@ -37,17 +35,13 @@ function revalidate() {
 }
 
 /**
- * Writes the photo onto the persistent mount under a content-addressed name:
- * the SHA-256 of the bytes plus the extension the bytes themselves imply. Two
- * uploads collide on a name only when they are the same picture, which is what
- * lets the serving route mark these URLs immutable.
+ * The name a photo is stored under: the SHA-256 of its bytes plus the extension
+ * the bytes themselves imply. Two uploads collide on a name only when they are
+ * the same picture, which is what lets the serving route mark these URLs
+ * immutable.
  */
-async function saveImage(bytes: Buffer, ext: string): Promise<string> {
-  const fileName = `${createHash("sha256").update(bytes).digest("hex")}${ext}`;
-  const dir = lostItemImagesDir();
-  await mkdir(dir, { recursive: true });
-  await writeFile(path.join(dir, fileName), bytes);
-  return fileName;
+function imageFileName(bytes: Buffer, ext: string): string {
+  return `${createHash("sha256").update(bytes).digest("hex")}${ext}`;
 }
 
 export async function submitLostItemAction(
@@ -90,28 +84,19 @@ export async function submitLostItemAction(
     };
   }
 
-  let fileName: string;
   try {
-    fileName = await saveImage(bytes, detected.ext);
-  } catch (err) {
-    console.error("忘れ物の写真の保存に失敗しました:", err);
-    return { error: "写真の保存に失敗しました。", message: null };
-  }
-
-  try {
+    // Writes the file and the row together under the per-file lock. If the row
+    // fails, the file is left behind rather than cleaned up: it is the same
+    // file a photo already on the board would be using, so removing it would
+    // break that row.
     await addLostItem({
       description: description === "" ? null : description,
-      fileName,
+      fileName: imageFileName(bytes, detected.ext),
+      imageBytes: bytes,
       uploadedBy: operator.username,
     });
   } catch (err) {
     console.error("忘れ物の追加に失敗しました:", err);
-    // Deliberately NOT unlinking the file here. Names are the hash of the
-    // bytes, so posting a photo that is already on the board writes the very
-    // same file — and cleaning up after a failed insert would take it away
-    // from the row that is already using it. An orphan costs a few hundred KB
-    // and is reused verbatim by the next identical upload; nothing references
-    // it, so it appears on no page.
     return { error: "忘れ物の追加に失敗しました。", message: null };
   }
 
@@ -140,39 +125,15 @@ export async function deleteLostItemAction(
     return { error: "削除する忘れ物が指定されていません。", message: null };
   }
 
-  let deleted: Awaited<ReturnType<typeof deleteLostItem>>;
   try {
-    deleted = await deleteLostItem(id);
+    // Removes the row, and the photo too once the last row using it is gone —
+    // both under the per-file lock, inside one transaction.
+    await deleteLostItem(id);
   } catch (err) {
     console.error("忘れ物の削除に失敗しました:", err);
     return { error: "忘れ物の削除に失敗しました。", message: null };
   }
 
-  // The row goes first: an orphaned file wastes a little disk, whereas a row
-  // pointing at a file that is already gone is a broken picture on a public
-  // page. Only the last row referencing a name may take the file with it.
-  if (deleted !== null && deleted.remainingRefs === 0) {
-    await unlinkQuietly(deleted.fileName);
-  }
-
   revalidate();
   return { error: null, message: "忘れ物を削除しました。" };
-}
-
-async function unlinkQuietly(fileName: string) {
-  const dir = path.resolve(lostItemImagesDir());
-  // basename() drops any directory parts, so this can only ever resolve to a
-  // file directly inside the images dir — no traversal possible.
-  const filePath = path.resolve(dir, path.basename(fileName));
-  if (path.dirname(filePath) !== dir) return;
-
-  try {
-    await unlink(filePath);
-  } catch (err) {
-    // An already-missing file is fine; surface anything else without failing
-    // the request the operator just completed.
-    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
-      console.error("写真ファイルの削除に失敗しました:", err);
-    }
-  }
 }

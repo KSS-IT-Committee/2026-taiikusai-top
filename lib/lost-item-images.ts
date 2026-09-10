@@ -1,5 +1,7 @@
 import "server-only";
 
+import { mkdir, unlink, writeFile } from "node:fs/promises";
+
 import path from "path";
 
 // Root of the per-container persistent files mount. In production and on PR
@@ -101,4 +103,36 @@ export function detectImageType(
  */
 export function imageContentType(fileName: string): string | null {
   return EXT_CONTENT_TYPE[path.extname(fileName).toLowerCase()] ?? null;
+}
+
+/** Writes a photo into the images dir, creating the dir on first use. */
+export async function saveImageFile(
+  fileName: string,
+  bytes: Buffer,
+): Promise<void> {
+  const dir = lostItemImagesDir();
+  await mkdir(dir, { recursive: true });
+  await writeFile(path.join(dir, fileName), bytes);
+}
+
+/**
+ * Removes a stored photo. Missing is not an error — the same picture posted
+ * twice shares one file, so a caller can race to remove an already-gone name.
+ */
+export async function deleteImageFile(fileName: string): Promise<void> {
+  const dir = path.resolve(lostItemImagesDir());
+  // basename() drops any directory parts, so this can only ever resolve to a
+  // file directly inside the images dir — no traversal possible.
+  const filePath = path.resolve(dir, path.basename(fileName));
+  if (path.dirname(filePath) !== dir) return;
+
+  try {
+    await unlink(filePath);
+  } catch (err) {
+    // An already-missing file is fine; surface anything else without failing
+    // the request the operator just completed.
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
+      console.error("写真ファイルの削除に失敗しました:", err);
+    }
+  }
 }

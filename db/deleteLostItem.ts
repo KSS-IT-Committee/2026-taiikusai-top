@@ -2,27 +2,44 @@ import { eq } from "drizzle-orm";
 
 import { taiikusaiLostItems } from "@/db/schema";
 import { db } from "@/lib/db";
+import { deleteImageFile } from "@/lib/lost-item-images";
+import { lockLostItemFile } from "@/lib/lost-item-lock";
 
 /**
- * Removes the row and reports the file it pointed at, plus how many rows still
- * reference that file. The caller unlinks only when nothing does — names are
- * content-addressed, so two postings of the same photo share one file.
+ * Removes the row, and the photo too once no row is left using it.
+ *
+ * The unlink deliberately happens INSIDE the transaction, while the per-file
+ * lock is still held. Doing it afterwards is the race CodeRabbit flagged: the
+ * reference count would be a snapshot, and a concurrent upload could commit a
+ * row for the same content-addressed file in the gap before the file went away,
+ * leaving that new row with no picture.
  */
-export async function deleteLostItem(
-  id: number,
-): Promise<{ fileName: string; remainingRefs: number } | null> {
+export async function deleteLostItem(id: number): Promise<boolean> {
   return db.transaction(async (tx) => {
+    // Read the name first so there is something to lock on. A row's file_name
+    // is never rewritten, so it cannot go stale between here and the lock.
+    const [target] = await tx
+      .select({ fileName: taiikusaiLostItems.fileName })
+      .from(taiikusaiLostItems)
+      .where(eq(taiikusaiLostItems.id, id));
+    if (!target) return false;
+
+    await lockLostItemFile(tx, target.fileName);
+
     const [deleted] = await tx
       .delete(taiikusaiLostItems)
       .where(eq(taiikusaiLostItems.id, id))
       .returning({ fileName: taiikusaiLostItems.fileName });
-    if (!deleted) return null;
+    if (!deleted) return false;
 
     const remaining = await tx
       .select({ id: taiikusaiLostItems.id })
       .from(taiikusaiLostItems)
       .where(eq(taiikusaiLostItems.fileName, deleted.fileName));
 
-    return { fileName: deleted.fileName, remainingRefs: remaining.length };
+    if (remaining.length === 0) {
+      await deleteImageFile(deleted.fileName);
+    }
+    return true;
   });
 }
