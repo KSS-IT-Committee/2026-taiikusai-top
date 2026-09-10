@@ -1,0 +1,51 @@
+.main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 50px;
+}
+.title {
+  font-family: "Yu Mincho", serif;
+  font-size: clamp(24px, 3vw, 32px);
+  margin-bottom: 16px;
+}
+.intro {
+  margin-bottom: 24px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.label {
+  font-weight: 700;
+}
+.select {
+  min-width: min(100%, 22rem);
+  padding: 8px 12px;
+  border: 1px solid #c8d6e5;
+  border-radius: 4px;
+}
+.submitButton {
+  padding: 8px 32px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1174ff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+.submitButton:disabled {
+  background-color: #9dc4f5;
+  cursor: progress;
+}
+.formStatus {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+  }
+}
