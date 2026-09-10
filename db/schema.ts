@@ -103,6 +103,23 @@ export const taiikusaiScores = pgTable("taiikusai_scores", {
     .notNull(),
 });
 
+// Which program the committee has marked as running right now, as a single
+// row (id is pinned to 1). NULL means the day has not started; the literal
+// "finished" means it is over. `updated_at` is when the marker was moved onto
+// that program, which is what the 押し/巻き figure is measured from. Only this
+// app writes it — see lib/timetable-access.ts for who may.
+export const taiikusaiProgress = pgTable(
+  "taiikusai_progress",
+  {
+    id: integer("id").primaryKey(),
+    programId: varchar("program_id", { length: 32 }),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [check("taiikusai_progress_single_row", sql`${table.id} = 1`)],
+);
+
 // The 忘れ物 board. Only the metadata is here — the photo itself is written to
 // the persistent /app/files mount and served by app/lost-item-images/[name],
 // the same arrangement equipment-management uses. file_name is not unique:

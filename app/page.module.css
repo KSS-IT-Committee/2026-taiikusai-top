@@ -70,6 +70,9 @@
   --line-color: #e0789b;
 }
 
+.now {
+  margin-bottom: 40px;
+}
 .scores {
   margin-bottom: 40px;
 }

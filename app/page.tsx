@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Internal } from "@/app/components/Internal";
+import { NowRunning } from "@/app/components/NowRunning";
 import { ScoreTable } from "@/app/components/ScoreTable";
 import { SCORE_ADMIN_ROLES } from "@/lib/score-access";
 import { pageMetadata, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
@@ -90,6 +91,9 @@ export default function Toppage() {
         <span className={styles.headerText}>体育祭2026</span>
       </header>
       <div className={styles.container}>
+        <div className={styles.now}>
+          <NowRunning />
+        </div>
         <div className={styles.scores}>
           <h1
             className={`${styles.title} ${styles.titleLine} ${styles.lineBlue}`}

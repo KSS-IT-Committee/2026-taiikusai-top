@@ -1,0 +1,324 @@
+/* The 創作展 timetable's layout, repainted in the 体育祭 palette: its sand and
+   indigo tokens become the header gradient's blues, with the pink used on the
+   top page as the accent that marks the break and the current program. */
+.page {
+  --tt-accent: #1174ff;
+  --tt-accent-alt: #e0789b;
+  --tt-border: #c8d6e5;
+  --tt-muted: #5a6b7d;
+  --tt-ink: #17324d;
+  --tt-surface: #f2f6fb;
+  --tt-ground: #ffffff;
+  --tt-mincho: "Yu Mincho", serif;
+  --tt-mono: var(--font-geist-mono), ui-monospace, monospace;
+  background: var(--tt-ground);
+  color: var(--tt-ink);
+}
+
+.header {
+  padding: clamp(2.5rem, 7vw, 5rem) clamp(1.25rem, 6vw, 5rem)
+    clamp(2rem, 5vw, 3.5rem);
+  background: linear-gradient(135deg, #93e0ff 10%, #1174ff 100%);
+  color: #ffffff;
+}
+
+.romaji,
+.eyebrow {
+  font-family: var(--tt-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.romaji {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.eyebrow {
+  color: var(--tt-muted);
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-family: var(--tt-mincho);
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  letter-spacing: 0.08em;
+}
+
+.overview,
+.timetable {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4rem);
+}
+
+.overview h2,
+.timetableIntro h2 {
+  margin-top: 0.65rem;
+  font-family: var(--tt-mincho);
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  letter-spacing: 0.08em;
+}
+
+.festivalDate {
+  margin-top: 1.5rem;
+  color: var(--tt-accent);
+  font-family: var(--tt-mono);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  letter-spacing: 0.08em;
+}
+
+.hours {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 2.5rem;
+  border-block: 1px solid var(--tt-border);
+}
+
+.hours div {
+  padding: 1.25rem 1rem;
+  border-inline-start: 1px solid var(--tt-border);
+}
+
+.hours div:first-child {
+  border-inline-start: 0;
+}
+
+.hours dt {
+  color: var(--tt-muted);
+  font-size: 0.8rem;
+}
+
+.hours dd {
+  margin-top: 0.5rem;
+  font-family: var(--tt-mono);
+  font-size: 1rem;
+}
+
+.note {
+  max-width: 42rem;
+  margin-top: 1.5rem;
+  color: var(--tt-muted);
+  font-size: 0.85rem;
+  line-height: 1.9;
+}
+
+.timetable {
+  max-width: none;
+  background: var(--tt-surface);
+}
+
+.timetableIntro,
+.timeline {
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.timetableIntro > p:last-child {
+  margin-top: 1rem;
+  color: var(--tt-muted);
+  line-height: 1.8;
+}
+
+.timeline {
+  margin-top: 2.5rem;
+  overflow-x: auto;
+  border-block: 1px solid var(--tt-border);
+}
+
+.timelineHeader,
+.timelineRow {
+  display: grid;
+  grid-template-columns: 13rem minmax(42rem, 1fr);
+}
+
+.timelineHeader {
+  min-width: 55rem;
+  border-bottom: 1px solid var(--tt-border);
+}
+
+.timelineLabel {
+  padding: 0.85rem 1rem;
+  color: var(--tt-muted);
+  font-size: 0.75rem;
+}
+
+.timeScale {
+  position: relative;
+  height: 2.4rem;
+  color: var(--tt-muted);
+  font-family: var(--tt-mono);
+  font-size: 0.7rem;
+}
+
+.timeScale time {
+  position: absolute;
+  bottom: 0.6rem;
+  transform: translateX(-50%);
+}
+
+.timeScale time:first-child {
+  transform: none;
+}
+
+.timeScale time:last-child {
+  transform: translateX(-100%);
+}
+
+.timelineBody {
+  min-width: 55rem;
+}
+
+.timelineRow {
+  min-height: 3.1rem;
+  border-bottom: 1px solid var(--tt-border);
+}
+
+.timelineRow:last-child {
+  border-bottom: 0;
+}
+
+.timelineProgram {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.55rem 1rem;
+  border-inline-end: 1px solid var(--tt-border);
+}
+
+.timelineProgram strong {
+  font-family: var(--tt-mincho);
+  font-size: 0.92rem;
+}
+
+.timelineProgram span {
+  color: var(--tt-muted);
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.timelineProgram time {
+  font-family: var(--tt-mono);
+}
+
+.timelineTrack {
+  position: relative;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--tt-border) 0 1px,
+    transparent 1px calc(100% / 7)
+  );
+}
+
+.timelineBar {
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  min-width: 6px;
+  border: 1px solid var(--tt-accent);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--tt-accent) 45%, var(--tt-ground));
+}
+
+.breakBar {
+  border: 1px dashed var(--tt-accent-alt);
+  background: color-mix(in srgb, var(--tt-accent-alt) 22%, var(--tt-ground));
+}
+
+.doneRow .timelineProgram,
+.doneRow .timelineBar {
+  opacity: 0.45;
+}
+
+.currentRow {
+  background: color-mix(in srgb, var(--tt-accent-alt) 8%, transparent);
+}
+
+.currentRow .timelineBar {
+  border-color: var(--tt-accent-alt);
+  background: var(--tt-accent-alt);
+}
+
+.runningMark {
+  display: inline-block;
+  margin-inline-start: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: var(--tt-accent-alt);
+  color: #ffffff;
+  font-family: var(--tt-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--tt-border);
+  border-radius: 8px;
+  background: var(--tt-ground);
+}
+
+.statusLabel {
+  color: var(--tt-muted);
+  font-family: var(--tt-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.statusProgram {
+  font-family: var(--tt-mincho);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+.statusTime {
+  color: var(--tt-muted);
+  font-family: var(--tt-mono);
+  font-size: 0.85rem;
+}
+
+.delay {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tt-accent-alt) 18%, var(--tt-ground));
+  color: #8f3453;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.onTime {
+  background: color-mix(in srgb, var(--tt-accent) 14%, var(--tt-ground));
+  color: #0b5ed7;
+}
+
+.editLink {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--tt-accent);
+  text-decoration: underline;
+}
+
+@media (max-width: 760px) {
+  .hours {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hours div:nth-child(3) {
+    border-inline-start: 0;
+    border-top: 1px solid var(--tt-border);
+  }
+
+  .hours div:nth-child(4) {
+    border-top: 1px solid var(--tt-border);
+  }
+
+  .timeline {
+    margin-inline: -1.25rem;
+  }
+}
