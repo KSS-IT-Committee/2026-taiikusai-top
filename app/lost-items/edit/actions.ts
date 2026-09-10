@@ -106,10 +106,12 @@ export async function submitLostItemAction(
     });
   } catch (err) {
     console.error("忘れ物の追加に失敗しました:", err);
-    // The file is now unreferenced. It is content-addressed, so an identical
-    // photo posted later would reuse it — but leaving a stray file behind on a
-    // failed insert is still worth cleaning up.
-    await unlinkQuietly(fileName);
+    // Deliberately NOT unlinking the file here. Names are the hash of the
+    // bytes, so posting a photo that is already on the board writes the very
+    // same file — and cleaning up after a failed insert would take it away
+    // from the row that is already using it. An orphan costs a few hundred KB
+    // and is reused verbatim by the next identical upload; nothing references
+    // it, so it appears on no page.
     return { error: "忘れ物の追加に失敗しました。", message: null };
   }
 
