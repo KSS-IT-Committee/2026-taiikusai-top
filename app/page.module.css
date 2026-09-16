@@ -119,7 +119,17 @@
 
 @media (max-width: 768px) {
   .header {
+    /* Two declarations on purpose: the url() is the fallback for engines
+       without image-set(), and the image-set() below wins everywhere else.
+       The WebP is the same 54-frame animation at 520KB instead of 1.7MB, so
+       phones — the only viewport this rule applies to — stop paying for the
+       GIF. Keep the GIF last so an engine that understands image-set() but
+       not animated WebP still has something to fall back to. */
     background-image: url("/header.gif");
+    background-image: image-set(
+      url("/header.webp") type("image/webp"),
+      url("/header.gif") type("image/gif")
+    );
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
