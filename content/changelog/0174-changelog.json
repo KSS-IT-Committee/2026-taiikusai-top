@@ -1,5 +1,5 @@
 {
-  "title": "serve the header animation as webp",
-  "description": "TODO",
+  "title": "ヘッダー画像の軽量化",
+  "description": "スマートフォンでトップページのヘッダーに表示しているアニメーションを、見た目を変えずに約1.7MBから約0.52MBに軽量化しました。",
   "credits": ["@rotarymars"]
 }
