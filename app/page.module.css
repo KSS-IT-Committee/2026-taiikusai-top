@@ -119,10 +119,24 @@
 
 @media (max-width: 768px) {
   .header {
+    /* The GIF is the fallback; the @supports block below swaps in the WebP
+       (the same 54-frame animation at 520KB instead of 1.7MB) wherever
+       image-set() type() works. It has to be a separate rule: lightningcss
+       drops a plain url() declaration that sits right before an image-set()
+       one, which would leave engines without type() support (iOS Safari
+       < 17, Chrome < 113) with no image at all. */
     background-image: url("/header.gif");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+  }
+  @supports (background-image: image-set(url("x") type("image/webp"))) {
+    .header {
+      background-image: image-set(
+        url("/header.webp") type("image/webp"),
+        url("/header.gif") type("image/gif")
+      );
+    }
   }
   .theme {
     display: none;
