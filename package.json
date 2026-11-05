@@ -16,12 +16,12 @@
     "fix": "npm run lint:fix && npm run format"
   },
   "dependencies": {
-    "@next/third-parties": "^16.3.1",
+    "@next/third-parties": "^16.3.4",
     "drizzle-orm": "^0.45.2",
     "next": "^16",
     "postgres": "^3.4.9",
-    "react": "19.2.8",
-    "react-dom": "19.3.0"
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -35,7 +35,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "eslint-plugin-unused-imports": "^4.0.0",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.9",
     "tailwindcss": "^4",
     "typescript": "^6"
   }
